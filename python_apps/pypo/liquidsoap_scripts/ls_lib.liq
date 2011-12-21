@@ -39,11 +39,13 @@ end
 
 def output_to(output_type, type, bitrate, host, port, pass, mount_point, url, description, genre, user, s, stream) =
     def on_error(msg)
+        s1_connected := "false"
         system("/usr/lib/airtime/pypo/bin/liquidsoap_scripts/notify.sh --error='#{msg}' --stream-id=#{stream} --time=#{time}")
         log("/usr/lib/airtime/pypo/bin/liquidsoap_scripts/notify.sh --error='#{msg}' --stream-id=#{stream} --time=#{time}")
         5.
     end
     def on_connect()
+        s1_connected := "true"
         system("/usr/lib/airtime/pypo/bin/liquidsoap_scripts/notify.sh --connect --stream-id=#{stream} --time=#{time}")
         log("/usr/lib/airtime/pypo/bin/liquidsoap_scripts/notify.sh --connect --stream-id=#{stream} --time=#{time}")
     end

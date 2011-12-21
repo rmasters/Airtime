@@ -17,6 +17,10 @@ stream_metadata_type = ref 0
 station_name = ref ''
 show_name = ref ''
 
+s1_connected = ref ''
+s2_connected = ref ''
+s3_connected = ref ''
+
 %include "ls_lib.liq"
 
 server.register(namespace="vars", "pypo_data", fun (s) -> begin pypo_data := s "Done" end)
@@ -24,7 +28,6 @@ server.register(namespace="vars", "web_stream_enabled", fun (s) -> begin web_str
 server.register(namespace="vars", "stream_metadata_type", fun (s) -> begin stream_metadata_type := int_of_string(s) s end)
 server.register(namespace="vars", "show_name", fun (s) -> begin show_name := s s end)
 server.register(namespace="vars", "station_name", fun (s) -> begin station_name := s s end)
-
 
 default = amplify(0.00001, noise())
 default = rewrite_metadata([("artist","Airtime"), ("title", "offline")],default)
@@ -98,6 +101,10 @@ if output_sound_device then
 	end
     
 end
+
+server.register(namespace=s1_mount, "connected", fun (s) -> begin !s1_connected end)
+server.register(namespace=s2_mount, "connected", fun (s) -> begin !s2_connected end)
+server.register(namespace=s3_mount, "connected", fun (s) -> begin !s3_connected end)
 
 if s1_enable == true then
     #output_to(output_type, type, bitrate, host, port, pass, mount_point, url, description, genre, s)
